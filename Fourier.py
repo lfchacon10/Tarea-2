@@ -33,6 +33,7 @@ def fu (fun,N):
 	return F
 
 
+#Graficas Fourier
 Fu= fu(f, len(f))
 timestep = 0.1
 freq = np.fft.fftfreq(len(f), d=timestep) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
@@ -49,4 +50,26 @@ plt.figure()
 plt.title("Transformada Suma implementacion propia")
 plt.plot(freqS,FuS)
 plt.grid()
+
+#Espectogram
+NFFT= len(f)
+dt= t[1]-t[0]
+Fs= int (1.0/dt) #Frecuencua de sampleo como en sismica
+
+NFFTS= len(fS)
+dtS= tS[1]-tS[0]
+FsS= int (1.0/dtS) #Frecuencua de sampleo como en sismica
+
+plt.figure()
+plt.subplot(2,1,1)
+plt.plot(t, f)
+plt.subplot(2,1,2)
+plt.specgram(fS, NFFT=NFFT, Fs=Fs, noverlap=900) # Recuperado de: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
+
+plt.figure()
+plt.title("Senal sumada")
+plt.subplot(2,1,1)
+plt.plot(tS, fS)
+plt.subplot(2,1,2)
+plt.specgram(fS, NFFT=NFFTS, Fs=FsS, noverlap=900) # Recuperado de: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
 plt.show()
