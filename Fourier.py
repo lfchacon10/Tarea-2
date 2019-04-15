@@ -21,7 +21,6 @@ plt.subplot(2,1,2)
 plt.title("\n Senal")
 plt.plot(t,f)
 plt.grid()
-plt.show()
 
 #Implementación propia de Fourier
 def fu (fun,N):
@@ -32,3 +31,22 @@ def fu (fun,N):
 	for n in range (0,N):
 		F[n]= np.sum( fun*np.exp( constante*k*(n/N) ) )
 	return F
+
+
+Fu= fu(f, len(f))
+timestep = 0.1
+freq = np.fft.fftfreq(len(f), d=timestep) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
+
+plt.figure()
+plt.title("Transformada implementacion propia")
+plt.plot(freq,Fu)
+plt.grid()
+
+FuS= fu(fS, len(fS))
+timestep = 0.1
+freqS = np.fft.fftfreq(len(fS), d=timestep) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
+plt.figure()
+plt.title("Transformada Suma implementacion propia")
+plt.plot(freqS,FuS)
+plt.grid()
+plt.show()
