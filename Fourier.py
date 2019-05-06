@@ -13,14 +13,17 @@ f=data[0:,1]
 #Plotea los datos
 plt.figure()
 plt.subplot(2,1,1)
-plt.title("Senal suma")
+plt.title("Señal suma")
 plt.plot(tS,fS)
 plt.grid()
 
 plt.subplot(2,1,2)
-plt.title("\n Senal")
+plt.title("Señal")
 plt.plot(t,f)
 plt.grid()
+plt.subplots_adjust(hspace=0.5)
+plt.savefig("Senal.png")
+
 
 #Implementación propia de Fourier
 def fu (fun,N):
@@ -34,27 +37,44 @@ def fu (fun,N):
 
 
 #Graficas Fourier
-Fu= fu(f, len(f))
-timestep = 0.1
-freq = np.fft.fftfreq(len(f), d=timestep) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
+N= len(f)
+
+Fu= fu(f,N )
+#timestep = t[1]-t[0]
+freq = np.fft.fftfreq(len(Fu))#, d=timestep) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
 
 plt.figure()
-plt.title("Transformada implementacion propia")
+plt.subplot(2,1,2)
+plt.title("Transformada Señal implementacion propia")
 plt.plot(freq,Fu)
 plt.grid()
+#plt.savefig("TransformadaSenal.png")
 
 FuS= fu(fS, len(fS))
-timestep = 0.1
-freqS = np.fft.fftfreq(len(fS), d=timestep) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
-plt.figure()
-plt.title("Transformada Suma implementacion propia")
+#timestep = 0.1
+freqS = np.fft.fftfreq(len(FuS) )#, d=timestep) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
+plt.subplot(2,1,1)
+plt.title("Transformada Señal sumanda implementacion propia")
 plt.plot(freqS,FuS)
 plt.grid()
+plt.subplots_adjust(hspace=0.5)
+#plt.savefig("TransformadaSenalSumada.png")
+plt.savefig("TransformadasSenales.png")
+
 
 #Espectogram
 NFFT= len(f)
 dt= t[1]-t[0]
 Fs= int (1.0/dt) #Frecuencua de sampleo como en sismica
+
+plt.figure()
+plt.subplot(2,1,1)
+plt.title("Senal sumada")
+plt.plot(t, f)
+plt.subplot(2,1,2)
+plt.ylabel("Frecuencia (Hz)")
+plt.xlabel("Tiempo (s)")
+plt.specgram(fS, NFFT=NFFT, Fs=Fs, noverlap=900) # Recuperado de: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
 
 NFFTS= len(fS)
 dtS= tS[1]-tS[0]
@@ -62,14 +82,10 @@ FsS= int (1.0/dtS) #Frecuencua de sampleo como en sismica
 
 plt.figure()
 plt.subplot(2,1,1)
-plt.plot(t, f)
-plt.subplot(2,1,2)
-plt.specgram(fS, NFFT=NFFT, Fs=Fs, noverlap=900) # Recuperado de: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
-
-plt.figure()
 plt.title("Senal sumada")
-plt.subplot(2,1,1)
+plt.grid()
 plt.plot(tS, fS)
 plt.subplot(2,1,2)
-plt.specgram(fS, NFFT=NFFTS, Fs=FsS, noverlap=900) # Recuperado de: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
-plt.show()
+plt.ylabel("Frecuencia (Hz)")
+plt.xlabel("Tiempo (s)")
+Pxx, freqs, bins, im= plt.specgram(fS, NFFT=512, Fs=2) # Recuperado de: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
