@@ -10,8 +10,6 @@ using std::endl;
 float m = 1000.0; // masa del piso
 float fric = 0.0;// Coeficiente de friccion
 float k = 2000; // Rigidez
-//float ω = 1.0*(k/m); //Frecuencia de forzamiento
-float w = sqrt(k/m);
 float dt=0.1;
 float tFinal=100;
 
@@ -51,15 +49,7 @@ void lf ( float u1value, float u2value, float u3value,float v1value, float v2val
   v2[1]=v2value;
   v3[1]=v3value;
 
-  cout <<"W="<<w<<endl;
   v1[0] = dt*ecuacion1( u1[0], u2[0], v1[1], w, 0)+v1[1];
-
-  cout<<"dt="<<dt<<" velocidad="<<v1[0] <<endl;
-//  cout<<"\n\ndt="<<dt<<" W="<<w<<" Ecuacion="<<ecuacion1( u1[0], u2[0], v1[1], w, 0)<<endl;
-
-  //cout <<v1[0]<<endl;
-  //cout <<"Sin="<<sin(PI)<<endl;
-
   v2[0] = dt*ecuacion2( u1[0], u2[0], u3[0], v2[1])+v2[1];
   v3[0] = dt*ecuacion3( u2[0], u3[0], v3[1]) + v3[1];
 
@@ -82,7 +72,7 @@ void lf ( float u1value, float u2value, float u3value,float v1value, float v2val
 
   //Crea el archivo
   ofstream outfile;
-  outfile.open("amp.dat");
+  outfile.open("amp.dat"<<str(w));
   for ( int i=0; i<tamano;i++)
   {
     if( i<2)
@@ -90,18 +80,21 @@ void lf ( float u1value, float u2value, float u3value,float v1value, float v2val
       cout <<u1[i]<<endl;
     }
     outfile << i*dt << "," << u1[i] << "," << u2[i] << "," << u3[i]<<endl;// << "," << v1[i] << "," << v2[i] << "," << v3[i] << endl;
-
   }
   outfile.close();
 }
 
-
 int main()
 {
+  float w = sqrt(k/m);
+
   float u1value = 0.0, u2value = 0.0, u3value = 0.0;
   float v1value = 0.0, v2value = 0.0, v3value = 0.0;
-
   //Para LeapFrog
+  float multiplo;
+  cout<<"Ingrese valor a multiplicar por la frecuencia de forzamiento=";
+  cin>> multiplo;
+  w*=multiplo;
   lf(u1value, u2value, u3value, v1value, v2value, v3value,tFinal,w );
 
 
