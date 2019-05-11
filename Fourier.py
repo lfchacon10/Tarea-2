@@ -93,15 +93,41 @@ plt.title("Espectrograma señal")
 plt.ylabel("Frecuencia (Hz)")
 plt.xlabel("Tiempo (s)")
 plt.specgram(f,Fs=Fs)#Referencia:https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
+plt.savefig("EspectrogramaSenales.png")
+
+
 
 #Señal sismica
-datosTemblor= np.genfromtxt("temblor.txt")
+datosTemblor= np.genfromtxt("temblor.txt",skip_header=4)
 dt = 1/100 #En el documento aparece que la frecuencia de sampleo fue  100Hz. Como Hz son s^-1 siginifica que 1/hz nos dara el dt que existe entre los datos.
-print(dt,"\n")
-print(datosTemblor[0])
+n= len(datosTemblor)
+t= np.linspace(0,n*dt,len(datosTemblor))
 
 plt.figure()
 plt.title("Datos temblor")
-plt.plot(datosTemblor)
+plt.plot(t,datosTemblor)
+plt.ylabel("Amplitud")
+plt.xlabel("Tiempo (s)")
 plt.grid()
+
+#Transformada señal
+f= np.fft.fft(datosTemblor)
+n=len(f)
+timestep = dt
+freq = np.fft.fftfreq(n, d=timestep)
+
+plt.figure()
+plt.title("Transformada Fourier señal sismica")
+plt.grid()
+plt.plot(freq,f)
+plt.ylabel("Amplitud")
+plt.xlabel("Frecuencia (Hz)")
+
+#Spectogram señal sismica
+
+FsSismo= int (1.0/dt) #Cantidad de samples por unidad de tiempo. En nuestro caso será el array completo porque los datos son de menos de 1 segundo. Referencias: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
+plt.title("Espectrograma señal sismica")
+plt.ylabel("Frecuencia (Hz)")
+plt.xlabel("Tiempo (s)")
+plt.specgram(datosTemblor, Fs=FsSismo)#Referencia:https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
 plt.show()
