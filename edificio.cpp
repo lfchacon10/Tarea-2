@@ -10,25 +10,27 @@ using std::endl;
 float m = 1000.0; // masa del piso
 float fric = 0.0;// Coeficiente de friccion
 float k = 2000; // Rigidez
-float ω = 1.0*(k/m); //Frecuencia de forzamiento
+//float ω = 1.0*(k/m); //Frecuencia de forzamiento
+float w = sqrt(k/m);
 float dt=0.1;
 float tFinal=10;
 
 float  forzExterno (float w, float t)
 {
-  return sin(w*t*PI/180);
+  return sin(w*t);
 }
 float ecuacion1( float u1, float u2, float v1, float w, float t)
 {
-  return -(fric/m)*v1 - 2*(k/m)*u1 + (k/m)*u2 + forzExterno(w,t)/m;
+//  cout<<"\n Ecuacion1= "<< -fric/m*v1 <<"---"<< - 2*k/m*u1 <<"---"<<+ k/m*u2<<"---"<<1/m*forzExterno(w,t)<<endl;
+  return -fric/m*v1 - 2*k/m*u1 + k/m*u2 + forzExterno(w,t)/m;
 }
 float ecuacion2( float u1, float u2, float u3, float v2)
 {
-  return -(fric/m)*v2 + (k/m)*u1 - 2*(k/m)*u2 + (k/m)*u3;
+  return -fric/m*v2 + k/m*u1 - 2*k/m*u2 + k/m*u3;
 }
 float ecuacion3( float u2, float u3, float v3)
 {
-  return -(fric/m)*v3 + (k/m)*u2 - (k/m)*u3;
+  return -fric/m*v3 + k/m*u2 - k/m*u3;
 }
 
 void lf ( float u1value, float u2value, float u3value,float v1value, float v2value, float v3value, float tFinal, float w  )
@@ -50,14 +52,23 @@ void lf ( float u1value, float u2value, float u3value,float v1value, float v2val
   v2[1]=v2value;
   v3[1]=v3value;
 
-  cout <<w<<endl;
-  v1[0] = dt*ecuacion1( u1[0], u2[0], v1[1], w, 0) +v1[0];
-  v2[0] = dt*ecuacion2( u1[0], u2[0], u3[0], v2[1])+v2[0];
-  v3[0] = dt*ecuacion3( u2[0], u3[0], v3[1]) + v3[0];
+  cout <<"W="<<w<<endl;
+  v1[0] = dt*ecuacion1( u1[0], u2[0], v1[1], w, 0)+v1[1];
+
+  cout<<"dt="<<dt<<" velocidad="<<v1[0] <<endl;
+//  cout<<"\n\ndt="<<dt<<" W="<<w<<" Ecuacion="<<ecuacion1( u1[0], u2[0], v1[1], w, 0)<<endl;
+
+  //cout <<v1[0]<<endl;
+  //cout <<"Sin="<<sin(PI)<<endl;
+
+  v2[0] = dt*ecuacion2( u1[0], u2[0], u3[0], v2[1])+v2[1];
+  v3[0] = dt*ecuacion3( u2[0], u3[0], v3[1]) + v3[1];
 
   u1[1]=dt*v1[0]+u1[0];
   u2[1]=dt*v2[0]+u2[0];
   u3[1]=dt*v3[0]+u3[0];
+
+//  cout <<"Velocidad="<<v1[0]<<" Amplitud="<<u1[1]<<endl;
 
   //De ahi en adelante
   for( int p= 0; p < tamano; p++ )
@@ -75,7 +86,11 @@ void lf ( float u1value, float u2value, float u3value,float v1value, float v2val
   outfile.open("amp.dat");
   for ( int i=0; i<tamano;i++)
   {
-    outfile << i*dt << "," << u1[i] << "," << u2[i] << "," << u3[i] << "," << v1[i] << "," << v2[i] << "," << v3[i] << endl;
+    if( i<2)
+    {
+      cout <<u1[i]<<endl;
+    }
+    outfile << i*dt << "," << u1[i] << "," << u2[i] << "," << u3[i]<<endl;// << "," << v1[i] << "," << v2[i] << "," << v3[i] << endl;
 
   }
   outfile.close();
@@ -84,7 +99,6 @@ void lf ( float u1value, float u2value, float u3value,float v1value, float v2val
 
 int main()
 {
-  float w = sqrt(k/m);
   float u1value = 0.0, u2value = 0.0, u3value = 0.0;
   float v1value = 0.0, v2value = 0.0, v3value = 0.0;
 
