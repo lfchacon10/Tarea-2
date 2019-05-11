@@ -24,7 +24,6 @@ plt.grid()
 plt.subplots_adjust(hspace=0.5)
 plt.savefig("Senal.png")
 
-
 #Implementación propia de Fourier
 def fu (fun,N):
 	n= np.size(fun)
@@ -35,57 +34,74 @@ def fu (fun,N):
 		F[n]= np.sum( fun*np.exp( constante*k*(n/N) ) )
 	return F
 
+#def freReq(senal,dt): #Recibe la señal y la diferencia de tiempos.
+#	n= np.size(senal)
+#	mitad = int(n/2)
+#	frecuencias= np.zeros(n)
+#	for i in range (1,n):
+#		if( i < mitad):
+#			f= (1/dt)*i			 #Posibles frecuencias para el tiempo
+#			frecuencias[i]= f
+#		else:
+#			f= (1/dt)*i
+#			frecuencias[i]= f
+#	return frecuencias
+#lt.figure()
+#imp= freReq(Fu,timestep)
+#plt.plot(imp, Fu)
+
 
 #Graficas Fourier
 N= len(f)
-
 Fu= fu(f,N )
-#timestep = t[1]-t[0]
-freq = np.fft.fftfreq(len(Fu))#, d=timestep) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
+timestep = t[1]-t[0]
+freq = np.fft.fftfreq(len(Fu), timestep)#, d=timestep) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
 
 plt.figure()
 plt.subplot(2,1,2)
-plt.title("Transformada Señal implementacion propia")
+plt.title("Transformada Señal")# implementacion propia")
 plt.plot(freq,Fu)
 plt.grid()
-#plt.savefig("TransformadaSenal.png")
 
-FuS= fu(fS, len(fS))
-#timestep = 0.1
-freqS = np.fft.fftfreq(len(FuS) )#, d=timestep) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
+Ns= len(fS)
+FuS= fu(fS, Ns)
+timestepS = tS[1]-tS[0]
+freqS = np.fft.fftfreq(len(FuS),timestepS ) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
 plt.subplot(2,1,1)
-plt.title("Transformada Señal sumanda implementacion propia")
+plt.title("Transformada Señal sumada")# implementacion propia")
 plt.plot(freqS,FuS)
 plt.grid()
 plt.subplots_adjust(hspace=0.5)
-#plt.savefig("TransformadaSenalSumada.png")
 plt.savefig("TransformadasSenales.png")
 
 
-#Espectogram
-NFFT= len(f)
+#Spectogram
 dt= t[1]-t[0]
-Fs= int (1.0/dt) #Frecuencua de sampleo como en sismica
+Fs= int (1.0/dt) #Cantidad de samples por unidad de tiempo. En nuestro caso será el array completo porque los datos son de menos de 1 segundo. Referencias: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
+FsS=int (1.0/dt)
 
 plt.figure()
 plt.subplot(2,1,1)
-plt.title("Senal sumada")
-plt.plot(t, f)
-plt.subplot(2,1,2)
+plt.title("Espectrograma señal sumada")
 plt.ylabel("Frecuencia (Hz)")
 plt.xlabel("Tiempo (s)")
-plt.specgram(fS, NFFT=NFFT, Fs=Fs, noverlap=900) # Recuperado de: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
+plt.specgram(fS,Fs=FsS)#, noverlap=900) # Recuperado de: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
+plt.subplots_adjust(hspace=0.5)
+plt.savefig("EspectrogramaSenales.png")
+plt.subplot(2,1,2)
+plt.title("Espectrograma señal")
+plt.ylabel("Frecuencia (Hz)")
+plt.xlabel("Tiempo (s)")
+plt.specgram(f,Fs=Fs)#Referencia:https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
 
-NFFTS= len(fS)
-dtS= tS[1]-tS[0]
-FsS= int (1.0/dtS) #Frecuencua de sampleo como en sismica
+#Señal sismica
+datosTemblor= np.genfromtxt("temblor.txt")
+dt = 1/100 #En el documento aparece que la frecuencia de sampleo fue  100Hz. Como Hz son s^-1 siginifica que 1/hz nos dara el dt que existe entre los datos.
+print(dt,"\n")
+print(datosTemblor[0])
 
 plt.figure()
-plt.subplot(2,1,1)
-plt.title("Senal sumada")
+plt.title("Datos temblor")
+plt.plot(datosTemblor)
 plt.grid()
-plt.plot(tS, fS)
-plt.subplot(2,1,2)
-plt.ylabel("Frecuencia (Hz)")
-plt.xlabel("Tiempo (s)")
-Pxx, freqs, bins, im= plt.specgram(fS, NFFT=512, Fs=2) # Recuperado de: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
+plt.show()
