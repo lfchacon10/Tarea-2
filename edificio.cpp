@@ -13,7 +13,7 @@ float k = 2000; // Rigidez
 //float ω = 1.0*(k/m); //Frecuencia de forzamiento
 float w = sqrt(k/m);
 float dt=0.1;
-float tFinal=10;
+float tFinal=100;
 
 float  forzExterno (float w, float t)
 {
@@ -21,7 +21,6 @@ float  forzExterno (float w, float t)
 }
 float ecuacion1( float u1, float u2, float v1, float w, float t)
 {
-//  cout<<"\n Ecuacion1= "<< -fric/m*v1 <<"---"<< - 2*k/m*u1 <<"---"<<+ k/m*u2<<"---"<<1/m*forzExterno(w,t)<<endl;
   return -fric/m*v1 - 2*k/m*u1 + k/m*u2 + forzExterno(w,t)/m;
 }
 float ecuacion2( float u1, float u2, float u3, float v2)
