@@ -1,4 +1,4 @@
-Resultados_hw2.pdf: Senal.png TransformadasSenales.png EspectrogramaSenales.png EspectrogramaTemblor.png amplitud1.png amplitudesMax.png
+Resultados_hw2.pdf: Senal.png TransformadasSenales.png EspectrogramaSenales.png EspectrogramaTemblor.png amplitudes.png amplitud1.png amplitud2.png amplitud3.png amplitudesMax.png amplitudes04.png amplitudes12.png amplitudes17.png amplitudes30.png
 	pdflatex Resultados_hw2.tex
 
 Senal.png: Fourier.py
@@ -19,8 +19,17 @@ TransformadaFourierSenalSismica.png:Fourier.py
 EspectrogramaTemblor.png:Fourier.py
 	python Fourier.py
 
-amplitud1.png:Plotws_hw2.py amp.dat
+amplitudes.png:Plotws_hw2.py amp.dat
 	python Plotws_hw2.py
+
+amplitud1.png:Plotws_hw2.py amp.dat
+			python Plotws_hw2.py
+
+amplitud2.png:Plotws_hw2.py amp.dat
+			python Plotws_hw2.py
+
+amplitud3.png:Plotws_hw2.py amp.dat
+			python Plotws_hw2.py
 
 amp.dat: edificio.cpp
 	g++ edificio.cpp
@@ -30,4 +39,16 @@ amplitud1.png:Plotws_hw2.py amp.dat
 	python Plotws_hw2.py
 
 amplitudesMax.png:Plotws_hw2.py amp.dat
+	python Plotws_hw2.py
+
+amplitudes04.png:Plotws_hw2.py amp.dat
+	python Plotws_hw2.py
+
+amplitudes12.png:Plotws_hw2.py amp.dat
+	python Plotws_hw2.py
+
+amplitudes17.png:Plotws_hw2.py amp.dat
+	python Plotws_hw2.py
+
+amplitudes30.png:Plotws_hw2.py amp.dat
 	python Plotws_hw2.py
