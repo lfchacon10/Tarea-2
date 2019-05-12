@@ -1,4 +1,4 @@
-Resultados_hw2.pdf: Senal.png TransformadasSenales.png EspectrogramaSenales.png EspectrogramaTemblor.png amplitudes.png amplitud1.png amplitud2.png amplitud3.png amplitudesMax.png amplitudes04.png amplitudes12.png amplitudes17.png amplitudes30.png
+Resultados_hw2.pdf: Senal.png TransformadasSenales.png EspectrogramaSenales.png EspectrogramaTemblor.png amplitudes.png amplitud1.png amplitud2.png amplitud3.png amplitudesMax.png amplitudes04.png amplitudes12.png amplitudes17.png amplitudes30.png amplitudesBONO.png amplitudesMaxBono.png
 	pdflatex Resultados_hw2.tex
 
 Senal.png: Fourier.py
@@ -51,4 +51,10 @@ amplitudes17.png:Plotws_hw2.py amp.dat
 	python Plotws_hw2.py
 
 amplitudes30.png:Plotws_hw2.py amp.dat
+	python Plotws_hw2.py
+
+amplitudesMaxBono.png:Plotws_hw2.py bono.dat
+	python Plotws_hw2.py
+
+amplitudesBONO.png:Plotws_hw2.py bono.dat
 	python Plotws_hw2.py

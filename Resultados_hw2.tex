@@ -97,6 +97,21 @@ Para esta frecuencia de forzamiento la estructura se verá muy afectada. Princip
 \includegraphics{amplitudes30.png}
 Las amplitudes son las más bajas, lo cual es bueno porque la estructura no se moveria tanto. La parte que más se mueve es la del primer piso y la frecuencia hace que sea un posible sismo que se sienta durante todos los 100 segundos sin parar.
 
-%Analisis de resultados...
+\subsection{ Bono}
+Se tomaron valores de estructuras del paper: Rodellar, J., Barbat, Á. H., Ryan, E. P., y Molinares, N. (1993). Comportamiento sísmico de edificios con un sistema no linel de control híbrido. Revista internacional de métodos numéricos para cálculo y diseño en ingeniería, 9(2), 201-220.
+ISO 690. Las estructuras descritas en el paper son muy parecidas al edificio de mi casa. Utilizan un valor de 60000kg para cada piso lo que en mi caso daría una masa de 3x10E6 kg para todo el edificio y una rigidez de columnas de 4.5 a 9x10E8 N/m. Yo usaré una de 2x10E4 N/m ya que no encontre un buen parametro para comprar con mi casa y un poco mas realista ya que el edificio que probaron eran de hibrido antisismos y el mio no lo es. Además de un amorguamiento de 0.005 que es 10 veces menor al que ellos usaron para toda su estructura.
+Mi objetivo es hallar la frecuencia a la cual mi edificio estaría en resonancia así que extendi la frecuencia de resonancia hasta 100000*w.
+\includegraphics{amplitudesMaxBono.png}
+En la grafica se puede observar los valores de W  el edificio con esos parametros descritos. Se encuentran varias pequeñas resonancias hasta una muy grande al rededor de 64000. Yo vivo en un primer piso, por lo cual en teoria sentiria más fuertes todas las pequeñas resonancias que ocurren hasta llegar al maximo. Sin embargo, sus amplitudes son muy pequeñas y por eso es muy probable que no se sienta nada. La frecuencia de las ondas es un factor que no sé como tener en cuenta en el momento de interpretar, ya que al ser tan constantes el movimiento podría debilitar la estructura y cambiar considerablemente su rigidez. Es posible que a pesar de que parezcan valores muy pequeños para la estructura sean muy grandes y pueda quebrarse muy facilmente.
+
+\subsection{ Amplitudes frecuencia elegida}
+\includegraphics{amplitudesBONO.png}
+Las amplitudes son muy pequeñas. Esto muestra que apesar de que se encuentre en resonancia es muy probable que no lo sienta a pesar de que mi piso el que mas amplitud tenga. La simulación es muy incompleta y le faltan muchas variables a tener en cuenta. Sin embargo, es una buena aproximación a las sismulaciones de estructuras.
+
+
+\subsection{ Análisis de resultados }
+Los análisis de ondas a través de métodos computacionales y algoritmos nos pueden ofrecer información muy importante para diversas áreas. Una de las mas importantes, como lo mostrado en la tarea, es el análisis de estructuras que puede ayudar a crear de mejor manera estructuras antisismicas. Las sismulaciones pueden mostrar rangos en los que las estructuras estarían en un riesgo muy alto por hallarse en resonancia con el sismo. De igual forma, en el análisis de sismos en sí también es muy útil. Por medio de metodos de Fourier se mostró como identificar las distintas frecuencias que componen un sismo y ver cuales de ellas hacen parte del sismo en sí y cuales son solo ruido. A pensar de que las simulaciones no tienen los parametros adecuados estos pueden ser añadidos en futuro para elaborar simulaciones mas elaboradas y con datos más realistas.
+
+
 
 \end{document}

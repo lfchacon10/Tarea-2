@@ -123,4 +123,53 @@ plt.ylabel("Amplitudes")
 plt.xlabel("Tiempo(s)")
 plt.legend()
 plt.savefig("amplitudes30.png")
-plt.show()
+
+
+
+
+datos = np.genfromtxt("bono.dat", delimiter=",")
+t= datos[:,0]
+u1= datos[:,1]
+u2= datos[:,2]
+u3= datos[:,3]
+
+u1ampMax=[]
+u2ampMax=[]
+u3ampMax=[]
+
+max=int(len(t)/1000)
+for i in range(max):
+    limInf= i*1000
+    limSup= (i+1)*1000
+    u1Act=u1[limInf:limSup]
+    u2Act=u2[limInf:limSup]
+    u3Act=u3[limInf:limSup]
+
+    u1ampMax.append(np.amax(u1Act))
+    u2ampMax.append(np.amax(u2Act))
+    u3ampMax.append(np.amax(u3Act))
+
+w=np.linspace(0.2,100000,len(u1ampMax))
+plt.figure()
+plt.grid()
+plt.title("Amplitudes")
+plt.plot(w,u1ampMax,"o-", label="Maxima Amplitud1")
+plt.plot(w,u2ampMax,"o-", label="Maxima Amplitud2")
+plt.plot(w,u3ampMax,"o-", label="Maxima Amplitud3")
+plt.ylabel("Amplitud")
+#plt.xscale("Log")
+plt.yscale("Log")
+plt.xlabel("Frecuencia de forzamiento")
+plt.legend()
+plt.savefig("amplitudesMaxBono.png")
+
+plt.figure()
+plt.grid()
+plt.title("Amplitudes para frecuencia de forzamiento = 64000*w")
+plt.plot(t[64*1000:65*1000],u1[64*1000:65*1000], label="Amplitud1") #Entre 28 y 29 porque esos son los datos de 1*w
+plt.plot(t[64*1000:65*1000],u2[64*1000:65*1000], label="Amplitud2")
+plt.plot(t[64*1000:65*1000],u3[64*1000:65*1000], label="Amplitud3")
+plt.ylabel("Amplitudes")
+plt.xlabel("Tiempo(s)")
+plt.legend()
+plt.savefig("amplitudesBONO.png")

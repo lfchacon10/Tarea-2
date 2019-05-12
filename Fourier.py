@@ -134,4 +134,3 @@ plt.ylabel("Frecuencia (Hz)")
 plt.xlabel("Tiempo (s)")
 plt.specgram(datosTemblor,Fs=FsSismo)#Referencia:https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
 plt.savefig("EspectrogramaTemblor.png")
-plt.show()
