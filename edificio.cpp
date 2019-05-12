@@ -32,56 +32,56 @@ float ecuacion3( float u2, float u3, float v3)
 
 void lf ( float u1value, float u2value, float u3value,float v1value, float v2value, float v3value, float tFinal, float w  )
 {
-  int tamano = tFinal/dt;
-  float u1[tamano];
-  float u2[tamano];
-  float u3[tamano];
-  float v1[tamano];
-  float v2[tamano];
-  float v3[tamano];
 
-  //Se iniciliazan los primeros puntos
-  u1[0]=u1value;
-  u2[0]=u2value;
-  u3[0]=u3value;
-
-  v1[1]=v1value;
-  v2[1]=v2value;
-  v3[1]=v3value;
-
-  v1[0] = dt*ecuacion1( u1[0], u2[0], v1[1], w, 0)+v1[1];
-  v2[0] = dt*ecuacion2( u1[0], u2[0], u3[0], v2[1])+v2[1];
-  v3[0] = dt*ecuacion3( u2[0], u3[0], v3[1]) + v3[1];
-
-  u1[1]=dt*v1[0]+u1[0];
-  u2[1]=dt*v2[0]+u2[0];
-  u3[1]=dt*v3[0]+u3[0];
-
-//  cout <<"Velocidad="<<v1[0]<<" Amplitud="<<u1[1]<<endl;
-
-  //De ahi en adelante
-  for( int p= 0; p < tamano; p++ )
-  {
-    u1[p+2]=2*dt*v1[p+1]+u1[p];
-    u2[p+2]=2*dt*v2[p+1]+u2[p];
-    u3[p+2]=2*dt*v3[p+1]+u3[p];
-    v1[p+2] = 2*dt*ecuacion1( u1[p+1], u2[p+1], v1[p+1], w, p*dt) +v1[p];
-    v2[p+2] = 2*dt*ecuacion2( u1[p+1], u2[p+1], u3[p+1], v2[p+1])+v2[p];
-    v3[p+2] = 2*dt*ecuacion3( u2[p+1], u3[p+1], v3[p+1]) + v3[p];
-  }
-
-  //Crea el archivo
+  float di=2.8/100;
   ofstream outfile;
-  outfile.open("amp.dat"<<str(w));
-  for ( int i=0; i<tamano;i++)
+  outfile.open("amp.dat");
+  for (float i=0.2; i <3; i+=di) //crea los valores para distintos W
   {
-    if( i<2)
+    int tamano = tFinal/dt;
+    float u1[tamano];
+    float u2[tamano];
+    float u3[tamano];
+    float v1[tamano];
+    float v2[tamano];
+    float v3[tamano];
+
+    //Se iniciliazan los primeros puntos
+    u1[0]=u1value;
+    u2[0]=u2value;
+    u3[0]=u3value;
+
+    v1[1]=v1value;
+    v2[1]=v2value;
+    v3[1]=v3value;
+
+    v1[0] = dt*ecuacion1( u1[0], u2[0], v1[1], w*i, 0)+v1[1];
+    v2[0] = dt*ecuacion2( u1[0], u2[0], u3[0], v2[1])+v2[1];
+    v3[0] = dt*ecuacion3( u2[0], u3[0], v3[1]) + v3[1];
+
+    u1[1]=dt*v1[0]+u1[0];
+    u2[1]=dt*v2[0]+u2[0];
+    u3[1]=dt*v3[0]+u3[0];
+
+    //De ahi en adelante
+    for( int p= 0; p < tamano; p++ )
     {
-      cout <<u1[i]<<endl;
+      u1[p+2]=2*dt*v1[p+1]+u1[p];
+      u2[p+2]=2*dt*v2[p+1]+u2[p];
+      u3[p+2]=2*dt*v3[p+1]+u3[p];
+      v1[p+2] = 2*dt*ecuacion1( u1[p+1], u2[p+1], v1[p+1], w*i, p*dt) +v1[p]; //Aca se usa el i
+      v2[p+2] = 2*dt*ecuacion2( u1[p+1], u2[p+1], u3[p+1], v2[p+1])+v2[p];
+      v3[p+2] = 2*dt*ecuacion3( u2[p+1], u3[p+1], v3[p+1]) + v3[p];
     }
-    outfile << i*dt << "," << u1[i] << "," << u2[i] << "," << u3[i]<<endl;// << "," << v1[i] << "," << v2[i] << "," << v3[i] << endl;
+
+    //Crea el archivo
+    for ( int i=0; i<tamano;i++)
+    {
+      outfile << i*dt << "," << u1[i] << "," << u2[i] << "," << u3[i]<<endl;// << "," << v1[i] << "," << v2[i] << "," << v3[i] << endl;
+    }
   }
   outfile.close();
+
 }
 
 int main()
@@ -91,10 +91,6 @@ int main()
   float u1value = 0.0, u2value = 0.0, u3value = 0.0;
   float v1value = 0.0, v2value = 0.0, v3value = 0.0;
   //Para LeapFrog
-  float multiplo;
-  cout<<"Ingrese valor a multiplicar por la frecuencia de forzamiento=";
-  cin>> multiplo;
-  w*=multiplo;
   lf(u1value, u2value, u3value, v1value, v2value, v3value,tFinal,w );
 
 
