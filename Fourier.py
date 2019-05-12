@@ -55,7 +55,7 @@ def fu (fun,N):
 N= len(f)
 Fu= fu(f,N )
 timestep = t[1]-t[0]
-freq = np.fft.fftfreq(len(Fu), timestep)#, d=timestep) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
+freq = np.fft.fftfreq(len(Fu), timestep)#, d=timestep) # Referencia: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
 
 plt.figure()
 plt.subplot(2,1,2)
@@ -66,7 +66,7 @@ plt.grid()
 Ns= len(fS)
 FuS= fu(fS, Ns)
 timestepS = tS[1]-tS[0]
-freqS = np.fft.fftfreq(len(FuS),timestepS ) # Recuperado de: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
+freqS = np.fft.fftfreq(len(FuS),timestepS ) # Referencia: https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.fft.fftfreq.html
 plt.subplot(2,1,1)
 plt.title("Transformada Señal sumada")# implementacion propia")
 plt.plot(freqS,FuS)
@@ -85,14 +85,14 @@ plt.subplot(2,1,1)
 plt.title("Espectrograma señal sumada")
 plt.ylabel("Frecuencia (Hz)")
 plt.xlabel("Tiempo (s)")
-plt.specgram(fS,Fs=FsS)#, noverlap=900) # Recuperado de: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
+plt.specgram(fS,Fs=FsS)#, noverlap=900) # Referencia: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
 plt.subplots_adjust(hspace=0.5)
 plt.savefig("EspectrogramaSenales.png")
 plt.subplot(2,1,2)
 plt.title("Espectrograma señal")
 plt.ylabel("Frecuencia (Hz)")
 plt.xlabel("Tiempo (s)")
-plt.specgram(f,Fs=Fs)#Referencia:https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
+plt.specgram(f,Fs=Fs)# Referencia: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
 plt.savefig("EspectrogramaSenales.png")
 
 
@@ -109,6 +109,8 @@ plt.plot(t,datosTemblor)
 plt.ylabel("Amplitud")
 plt.xlabel("Tiempo (s)")
 plt.grid()
+plt.savefig("SenalSismica.png")
+
 
 #Transformada señal
 f= np.fft.fft(datosTemblor)
@@ -122,12 +124,14 @@ plt.grid()
 plt.plot(freq,f)
 plt.ylabel("Amplitud")
 plt.xlabel("Frecuencia (Hz)")
+plt.savefig("TransformadaFourierSenalSismica.png")
+
 
 #Spectogram señal sismica
-
 FsSismo= int (1.0/dt) #Cantidad de samples por unidad de tiempo. En nuestro caso será el array completo porque los datos son de menos de 1 segundo. Referencias: https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
 plt.title("Espectrograma señal sismica")
 plt.ylabel("Frecuencia (Hz)")
 plt.xlabel("Tiempo (s)")
-plt.specgram(datosTemblor, Fs=FsSismo)#Referencia:https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
+plt.specgram(datosTemblor,Fs=FsSismo)#Referencia:https://matplotlib.org/gallery/images_contours_and_fields/specgram_demo.html#sphx-glr-gallery-images-contours-and-fields-specgram-demo-py
+plt.savefig("EspectrogramaTemblor.png")
 plt.show()
